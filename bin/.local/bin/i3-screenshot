@@ -1,0 +1,41 @@
+#!/bin/zsh
+
+# Configuration
+SCREENSHOT_DIR="${HOME}/Pictures/Screenshots"
+DATE_FORMAT=$(date +%F-%H%M%S)
+FILENAME="${SCREENSHOT_DIR}/${DATE_FORMAT}.png"
+
+# Ensure the destination directory exists
+mkdir -p "$SCREENSHOT_DIR"
+
+# Check for required tools (maim and xclip)
+if ! command -v maim &> /dev/null || ! command -v xclip &> /dev/null; then
+    notify-send "Screenshot Error" "maim or xclip not found. Please install them."
+    exit 1
+fi
+
+case "$1" in
+    # Area Selection Mode
+    "select")
+        # -s: Select region interactively.
+        # -u: Hides the selection utility (prevents maim from crashing on some systems).
+        maim -s -u | tee "$FILENAME" | xclip -selection clipboard -t image/png
+        notify-send "Screenshot Taken" "Area selected, saved to ${FILENAME} and copied to clipboard."
+        ;;
+
+    # Active Window Mode
+    "window")
+        # Uses xdotool to get the active window ID and passes it to maim.
+        maim -i $(xdotool getactivewindow) | tee "$FILENAME" | xclip -selection clipboard -t image/png
+        notify-send "Screenshot Taken" "Active window saved to ${FILENAME} and copied to clipboard."
+        ;;
+
+    # Full Screen Mode (Default)
+    *)
+        # Default behavior: full screen shot.
+        maim | tee "$FILENAME" | xclip -selection clipboard -t image/png
+        notify-send "Screenshot Taken" "Full screen saved to ${FILENAME} and copied to clipboard."
+        ;;
+esac
+
+exit 0
