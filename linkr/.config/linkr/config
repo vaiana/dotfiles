@@ -1,0 +1,6 @@
+go/google;xdg-open https://www.google.com/
+go/gemini;xdg-open https://gemini.google.com/
+go/chatgpt;xdg-open https://www.chatgpt.com/
+go/cal;xdg-open https://calendar.google.com/
+go/mail;xdg-open https://mail.google.com/
+go/drive;xdg-open https://drive.google.com/

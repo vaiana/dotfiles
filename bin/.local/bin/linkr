@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Configuration file for linkr
+LINKS_FILE="$HOME/.config/linkr/config"
+
+# Define the directories to search for .desktop files
+APP_DIRS="/usr/share/applications $HOME/.local/share/applications /var/lib/snapd/desktop/applications/"
+
+# 1. Use 'find' to locate all .desktop files and pipe them into 'xargs'.
+# 2. 'grep -h' finds the 'Exec=' line without printing the filename.
+# 3. First 'sed' removes the "Exec=" prefix.
+# 4. Second 'sed' removes everything from the first space onward (i.e., arguments like %u, %f).
+# 5. Third 'sed' removes any leading or trailing quotes/whitespace.
+# 6. 'sort -u' ensures a unique list of clean executable names.
+
+APP_LIST=$(find $APP_DIRS -name "*.desktop" 2>/dev/null | xargs grep -h "^Exec=" | \
+    sed 's/^Exec=//' | \
+    sed 's/ .*//' | \
+    sed 's/["'\'']//g' | \
+    sort -u)
+
+# Get the list of custom links (Links) 
+LINK_LIST=$(awk -F ';' '{print $1}' "$LINKS_FILE")
+
+# --- PART 3: Combine and Launch Rofi ---
+
+# Combine the lists and pipe them into Rofi
+CHOICE=$(echo -e "$APP_LIST\n$LINK_LIST" | rofi -dmenu -p "Run/Go To" -i)
+
+# --- PART 4: Execute the Choice (Execution Logic remains the same) ---
+
+if [ -n "$CHOICE" ]; then
+    
+    # 1. Check if the choice is a custom link alias
+    if grep -q "^$CHOICE;" "$LINKS_FILE"; then
+        
+        # Choice is a custom link: Find the full command
+        EXEC_CMD=$(grep "^$CHOICE;" "$LINKS_FILE" | awk -F ';' '{print $2}')
+        
+        # Execute the custom command in a subshell, backgrounded, and silent.
+        ( eval "$EXEC_CMD" ) > /dev/null 2>&1 &
+    
+    else
+        # Choice is NOT a custom link: Assume it's a standard executable.
+        
+        # Execute the program directly
+        exec "$CHOICE" &
+    fi
+fi
