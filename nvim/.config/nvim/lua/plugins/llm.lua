@@ -20,7 +20,7 @@ return {
         suffix = "<fim_suffix>",
       },
       debounce_ms = 150,
-      accept_keymap = "<Tab>",
+      accept_keymap = "<C-y>",
       dismiss_keymap = "<S-Tab>",
       tls_skip_verify_insecure = false,
       lsp = {
