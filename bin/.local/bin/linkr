@@ -1,49 +1,31 @@
 #!/bin/bash
 
-# Configuration file for linkr
-LINKS_FILE="$HOME/.config/linkr/config"
+# Path to your list
+LIST_FILE="$HOME/.config/linkr/config"
 
-# Define the directories to search for .desktop files
-APP_DIRS="/usr/share/applications $HOME/.local/share/applications /var/lib/snapd/desktop/applications/"
+if [ -z "$1" ]; then
+    # --- DISPLAY MODE ---
+    # 1. -F '|': Set delimiter to pipe
+    # 2. /^[ \t]*#/ : Regex to match lines starting with # (even with spaces before it)
+    # 3. next : Skip those lines
+    # 4. NF : Ensure line is not empty
+    # 5. print $1 : Print the Name
+    awk -F ';' '/^[ \t]*#/ {next} NF {print $1}' "$LIST_FILE"
 
-# 1. Use 'find' to locate all .desktop files and pipe them into 'xargs'.
-# 2. 'grep -h' finds the 'Exec=' line without printing the filename.
-# 3. First 'sed' removes the "Exec=" prefix.
-# 4. Second 'sed' removes everything from the first space onward (i.e., arguments like %u, %f).
-# 5. Third 'sed' removes any leading or trailing quotes/whitespace.
-# 6. 'sort -u' ensures a unique list of clean executable names.
-
-APP_LIST=$(find $APP_DIRS -name "*.desktop" 2>/dev/null | xargs grep -h "^Exec=" | \
-    sed 's/^Exec=//' | \
-    sed 's/ .*//' | \
-    sed 's/["'\'']//g' | \
-    sort -u)
-
-# Get the list of custom links (Links) 
-LINK_LIST=$(awk -F ';' '{print $1}' "$LINKS_FILE")
-
-# --- PART 3: Combine and Launch Rofi ---
-
-# Combine the lists and pipe them into Rofi
-CHOICE=$(echo -e "$APP_LIST\n$LINK_LIST" | rofi -dmenu -p "Run/Go To" -i)
-
-# --- PART 4: Execute the Choice (Execution Logic remains the same) ---
-
-if [ -n "$CHOICE" ]; then
+else
+    # --- EXECUTE MODE ---
+    selection="$1"
     
-    # 1. Check if the choice is a custom link alias
-    if grep -q "^$CHOICE;" "$LINKS_FILE"; then
-        
-        # Choice is a custom link: Find the full command
-        EXEC_CMD=$(grep "^$CHOICE;" "$LINKS_FILE" | awk -F ';' '{print $2}')
-        
-        # Execute the custom command in a subshell, backgrounded, and silent.
-        ( eval "$EXEC_CMD" ) > /dev/null 2>&1 &
+    # 1. Find the line in the file
+    # We must also grep out comments here just in case a command name starts with # (unlikely but safe)
+    line=$(grep "^$selection;" "$LIST_FILE" | grep -v "^[ \t]*#" | head -n 1)
     
-    else
-        # Choice is NOT a custom link: Assume it's a standard executable.
-        
-        # Execute the program directly
-        exec "$CHOICE" &
+    # 2. Extract the command (field 2)
+    command=$(echo "$line" | cut -d';' -f2)
+
+    # 3. Run it
+    if [ -n "$command" ]; then
+        if [ -f "$HOME/.profile" ]; then source "$HOME/.profile"; fi
+        eval "$command" >/dev/null 2>&1 &
     fi
 fi

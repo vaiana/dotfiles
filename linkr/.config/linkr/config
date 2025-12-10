@@ -1,6 +1,18 @@
-go/google;xdg-open https://www.google.com/
-go/gemini;xdg-open https://gemini.google.com/
-go/chatgpt;xdg-open https://www.chatgpt.com/
-go/cal;xdg-open https://calendar.google.com/
-go/mail;xdg-open https://mail.google.com/
-go/drive;xdg-open https://drive.google.com/
+# Work links, opens in work browser 
+w/google;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.google.com/
+w/gemini;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://gemini.google.com/
+w/chatgpt;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.chatgpt.com/
+w/claude;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://claude.ai/
+w/cal;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://calendar.google.com/
+w/mail;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://mail.google.com/
+w/drive;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://drive.google.com/
+w/gratz;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.getgratz.com/
+
+
+# Personal links, opens in personal browser
+go/google;brave-browser-stable --new-tab https://www.google.com/
+go/gemini;brave-browser-stable --new-tab https://gemini.google.com/
+go/chatgpt;brave-browser-stable --new-tab https://www.chatgpt.com/
+go/cal;brave-browser-stable --new-tab https://calendar.google.com/
+go/mail;brave-browser-stable --new-tab https://mail.google.com/
+go/claude;brave-browser-stable --new-tab https://claude.ai/
