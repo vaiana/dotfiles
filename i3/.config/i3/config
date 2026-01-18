@@ -206,8 +206,10 @@ bar {
 assign [class="^Brave-browser"] "1"
 assign [class="^brave-work"] "2"
 assign [class="Alacritty"] "3"
-assign [class="Cursor"] "7"
 assign [class="Slack"] "4"
+assign [class="discord"] "5"
+assign [class="Cursor"] "7"
+assign [class="Zotero"] "8"
 
 
 # nitrogen and picom for background image 
