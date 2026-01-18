@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Check if data is being piped in
+if [ -t 0 ]; then
+    # No pipe, check if a filename was provided
+    if [ -n "$1" ]; then
+        xclip -selection clipboard "$1"
+        echo "File '$1' copied to clipboard."
+    else
+        echo "Usage: echo \"hello\" | clip  OR  clip filename.txt"
+    fi
+else
+    # Data is being piped in
+    xclip -selection clipboard
+fi
