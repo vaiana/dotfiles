@@ -28,7 +28,8 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
+vim.opt.textwidth = 100
 
 -- Set up Treesitter folding
 -- Use Neovim's built-in Treesitter-based folding

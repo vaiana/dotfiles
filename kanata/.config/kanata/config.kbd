@@ -1,18 +1,21 @@
-;; defsrc is still necessary
 (defcfg
   process-unmapped-keys yes
 )
 
 (defsrc
-  caps a s d f j k l ;
+  caps  a  s  d  f    h  j  k  l  ;    spc  u
 )
+
 (defvar
   tap-time 150
   hold-time 200
 )
 
 (defalias
-  escctrl (tap-hold 100 100 esc lctl)
+  ;; Caps sends Escape
+  esc_only esc
+
+  ;; Home Row Mods
   a (multi f24 (tap-hold $tap-time $hold-time a lmet))
   s (multi f24 (tap-hold $tap-time $hold-time s lalt))
   d (multi f24 (tap-hold $tap-time $hold-time d lsft))
@@ -21,8 +24,15 @@
   k (multi f24 (tap-hold $tap-time $hold-time k rsft))
   l (multi f24 (tap-hold $tap-time $hold-time l ralt))
   ; (multi f24 (tap-hold $tap-time $hold-time ; rmet))
+
+  ;; Spacebar: Tap for space, Hold for Nav Layer
+  spc_nav (tap-hold $tap-time $hold-time spc (layer-toggle nav))
 )
 
 (deflayer base
-  @escctrl @a @s @d @f @j @k @l @;
+  @esc_only @a @s @d @f    h @j @k @l @;    @spc_nav u
+)
+
+(deflayer nav
+  _         _  _  pgdn _    left down up rght _    _    pgup
 )
