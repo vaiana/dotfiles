@@ -2,7 +2,6 @@
 
 start-at-login = true
 
-
 # i3 doesn't have "normalizations" feature that why we disable them here.
 # But the feature is very helpful.
 # Normalizations eliminate all sorts of weird tree configurations that don't make sense.
@@ -14,13 +13,11 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [mode.main.binding]
-    # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
-    alt-enter = '''exec-and-forget osascript -e '
-    tell application "Terminal"
-        do script
-        activate
-    end tell'
-    '''
+    # start a terminal (matches i3: $mod+Return exec alacritty)
+    alt-enter = 'exec-and-forget open -na Alacritty'
+
+    # kill focused window (matches i3: $mod+Shift+q kill)
+    alt-shift-q = 'close'
 
     # i3 wraps focus by default
     alt-j =         'focus --boundaries-action wrap-around-the-workspace left'
@@ -28,6 +25,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-l =         'focus --boundaries-action wrap-around-the-workspace up'
     alt-semicolon = 'focus --boundaries-action wrap-around-the-workspace right'
 
+    # move focused window
     alt-shift-j = 'move left'
     alt-shift-k = 'move down'
     alt-shift-l = 'move up'
@@ -40,8 +38,6 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
     alt-f = 'fullscreen'
 
-    #alt-s = 'layout v_accordion' # 'layout stacking' in i3
-    #alt-w = 'layout h_accordion' # 'layout tabbed' in i3
     alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
     alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
@@ -54,6 +50,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     # should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
     # alt-a = 'focus parent'
 
+    # switch to workspace
     alt-1 = 'workspace 1'
     alt-2 = 'workspace 2'
     alt-3 = 'workspace 3'
@@ -64,15 +61,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
     alt-0 = 'workspace 10'
-    alt-t = 'workspace T'
-    alt-w = 'workspace W'
-    alt-s = 'workspace S'
-    alt-c = 'workspace C'
-    alt-g = 'workspace G'
-    alt-p = 'workspace P'
-    alt-z = 'workspace Z'
-    alt-b = 'workspace B'
 
+    # move focused container to workspace
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
     alt-shift-3 = 'move-node-to-workspace 3'
@@ -96,34 +86,40 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     enter = 'mode main'
     esc = 'mode main'
 
+# Workspace 1: Brave Browser (personal)
 [[on-window-detected]]
-    if.app-id = 'com.googlecode.iterm2'
-    run = ['move-node-to-workspace T']  # The callback itself
+    if.app-id = 'com.brave.Browser'
+    run = ['move-node-to-workspace 1']
 
+# Workspace 2: brave-work
+# Note: on macOS, the work profile (launched with --user-data-dir) shares the same
+# bundle ID as personal Brave. Auto-routing is not possible the way i3 uses --class.
+# Use alt-shift-2 to manually move the work browser window to workspace 2.
+
+# Workspace 3: Alacritty
 [[on-window-detected]]
-    if.app-id = 'company.thebrowser.Browser'
-    run = ['move-node-to-workspace W']  # The callback itself
+    if.app-id = 'org.alacritty'
+    run = ['move-node-to-workspace 3']
 
+# Workspace 4: Slack
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
-    run = ['move-node-to-workspace S']  # The callback itself
-    
-[[on-window-detected]]
-    # cursor
-    if.app-id = 'com.todesktop.230313mzl4w4u92'
-    run = ['move-node-to-workspace C']  # The callback itself
+    run = ['move-node-to-workspace 4']
 
+# Workspace 5: Discord
 [[on-window-detected]]
-    if.app-id = 'com.linear'
-    run = ['move-node-to-workspace P']
-    
+    if.app-id = 'com.hnc.Discord'
+    run = ['move-node-to-workspace 5']
+
+# Workspace 7: Cursor
+[[on-window-detected]]
+    if.app-id = 'com.todesktop.230313mzl4w4u92'
+    run = ['move-node-to-workspace 7']
+
+# Workspace 8: Zotero
 [[on-window-detected]]
     if.app-id = 'org.zotero.zotero'
-    run = ['move-node-to-workspace Z']
-
-[[on-window-detected]]
-    if.app-id = 'net.shinyfrog.bear'
-    run = ['move-node-to-workspace B']
+    run = ['move-node-to-workspace 8']
 
 [[on-window-detected]]
     if.app-id = 'com.electron.universal-launcher'
