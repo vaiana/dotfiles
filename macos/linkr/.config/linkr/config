@@ -1,0 +1,42 @@
+# Work links, opens in Brave Stable (work browser)
+# On macOS, Brave Stable's default profile is the work profile — no --user-data-dir needed.
+w/google;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.google.com/
+w/gemini;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://gemini.google.com/
+w/chatgpt;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.chatgpt.com/
+w/claude;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://claude.ai/
+w/cal;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://calendar.google.com/
+w/mail;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://mail.google.com/
+w/drive;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://drive.google.com/
+w/gratz;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.getgratz.com/
+w/discuss;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://trello.com/b/bGY7WPpz/mike-diogo
+w/harvest;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://agencyenterprise.harvestapp.com/time
+w/it;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://docs.google.com/forms/d/e/1FAIpQLScpXcCqVa3oyv7XuizCnKxbmnlU71wp7mAt6IVFFwVbx_Oc2Q/formrestricted
+w/vacation;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://airtable.com/appLqiS9oY5OiDZEO/shrm4pAoAjWYBoU9t
+w/teamsync;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://drive.google.com/drive/folders/1jMhatZTFZfub8qgavun2Lmd2jT12R67F
+w/people;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://people.ae.studio/
+w/crm;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://alignment-crm.vercel.app/2f3336a6-fa78-4317-90ac-bf63d72f05ca/dashboard
+w/rmboard;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://trello.com/b/rOI33ubM/rms
+w/tactiq;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://app.tactiq.io/
+
+# Apps repeated under /app for easier access
+w/mgai;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.militarygradeartificialintelligence.com/
+w/antisem;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.aiisantisemitic.com/
+w/sleepershield;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.sleepershield.com/
+
+# Work Apps
+app/mgai;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.militarygradeartificialintelligence.com/
+app/antisem;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.aiisantisemitic.com/
+app/sleepershield;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.sleepershield.com/
+
+
+# Personal links, opens in Brave Beta (personal browser)
+go/google;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.google.com/
+go/gemini;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://gemini.google.com/
+go/chatgpt;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.chatgpt.com/
+go/cal;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://calendar.google.com/
+go/mail;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://mail.google.com/
+go/claude;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://claude.ai/
+go/music;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://music.youtube.com/
+go/gusto;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://app.gusto.com/
+go/github;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://github.com/
+go/innoreader;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.inoreader.com/
