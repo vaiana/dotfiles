@@ -86,15 +86,18 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     enter = 'mode main'
     esc = 'mode main'
 
-# Workspace 1: Brave Browser (personal)
+# Workspace 1: Brave Beta (personal)
+# Using Beta for personal so Stable can be reserved for work (see workspace 2).
 [[on-window-detected]]
-    if.app-id = 'com.brave.Browser'
+    if.app-id = 'com.brave.Browser.beta'
     run = ['move-node-to-workspace 1']
 
-# Workspace 2: brave-work
-# Note: on macOS, the work profile (launched with --user-data-dir) shares the same
-# bundle ID as personal Brave. Auto-routing is not possible the way i3 uses --class.
-# Use alt-shift-2 to manually move the work browser window to workspace 2.
+# Workspace 2: Brave Stable (work)
+# Stable is used for work so both profiles have distinct bundle IDs and can be
+# auto-routed. Mirrors the Linux setup where --class=brave-work separates instances.
+[[on-window-detected]]
+    if.app-id = 'com.brave.Browser'
+    run = ['move-node-to-workspace 2']
 
 # Workspace 3: Alacritty
 [[on-window-detected]]
