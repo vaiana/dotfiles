@@ -1,0 +1,45 @@
+#!/bin/zsh
+
+# Configuration
+SCREENSHOT_DIR="${HOME}/Pictures/Screenshots"
+DATE_FORMAT=$(date +%F-%H%M%S)
+FILENAME="${SCREENSHOT_DIR}/${DATE_FORMAT}.png"
+
+# Ensure the destination directory exists
+mkdir -p "$SCREENSHOT_DIR"
+
+notify() {
+    osascript -e "display notification \"$2\" with title \"$1\""
+}
+
+copy_to_clipboard() {
+    osascript -e "set the clipboard to (read (POSIX file \"$1\") as «class PNGf»)"
+}
+
+case "$1" in
+    # Area Selection Mode
+    "select")
+        # -i: interactive selection, -x: suppress shutter sound
+        screencapture -i -x "$FILENAME"
+        copy_to_clipboard "$FILENAME"
+        notify "Screenshot Taken" "Area selected, saved to ${FILENAME} and copied to clipboard."
+        ;;
+
+    # Window Mode
+    "window")
+        # -w: click to select a window, -x: suppress shutter sound
+        screencapture -w -x "$FILENAME"
+        copy_to_clipboard "$FILENAME"
+        notify "Screenshot Taken" "Window saved to ${FILENAME} and copied to clipboard."
+        ;;
+
+    # Full Screen Mode (Default)
+    *)
+        # -x: suppress shutter sound
+        screencapture -x "$FILENAME"
+        copy_to_clipboard "$FILENAME"
+        notify "Screenshot Taken" "Full screen saved to ${FILENAME} and copied to clipboard."
+        ;;
+esac
+
+exit 0

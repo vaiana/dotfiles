@@ -230,12 +230,12 @@ bindsym $mod+l exec --no-startup-id linkr
 # Screenshots
 set $screenshot_script $HOME/.local/bin/i3-screenshot
 
-# Full Screen (F1)
-# 39 is the keycode for s 
-bindcode $mod+39 exec --no-startup-id $screenshot_script
+# Area Selection (s)
+# 39 is the keycode for s
+bindcode $mod+39 exec --no-startup-id $screenshot_script select
 
-# Area Selection (Shift + F1)
-bindcode $mod+Shift+39 exec --no-startup-id $screenshot_script select
+# Full Screen (Shift + s)
+bindcode $mod+Shift+39 exec --no-startup-id $screenshot_script
 
 # Active Window ($mod + F1)
 bindcode $mod+Mod4+39 exec --no-startup-id $screenshot_script window

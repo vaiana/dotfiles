@@ -74,6 +74,11 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-shift-9 = 'move-node-to-workspace 9'
     alt-shift-0 = 'move-node-to-workspace 10'
 
+    # screenshots (mirrors i3: $mod+s=select, $mod+Shift+s=full, $mod+Mod4+s=window)
+    alt-s       = 'exec-and-forget ~/.local/bin/screenshot select'
+    alt-shift-s = 'exec-and-forget ~/.local/bin/screenshot'
+    alt-cmd-s   = 'exec-and-forget ~/.local/bin/screenshot window'
+
     alt-shift-c = 'reload-config'
 
     alt-r = 'mode resize'
