@@ -10,16 +10,6 @@ return {
 			end,
 		})
 		vim.lsp.enable("ruff")
-        vim.lsp.config("rust_analyzer", {
-            settings = {
-                ["rust_analyzer"] = {
-                    checkOnSave = {
-                        command = "clippy",
-                    },
-                },
-            },
-        })
-        vim.lsp.enable("rust_analyzer")
 		vim.lsp.config("lua_ls", {
 			settings = {
 				Lua = {

@@ -5,7 +5,6 @@ return {
 		formatters_by_ft = {
 			python = { "ruff_format", "ruff_organize_imports" }, -- Use the custom formatter defined below
 			lua = { "stylua" },
-            rust = { "rustfmt" },
 			-- etc.
 		},
 

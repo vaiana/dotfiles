@@ -3,6 +3,10 @@ return {
 	branch = "main",
 	build = ":TSUpdate",
 	config = function()
+		--
+		-- THIS IS THE FIX:
+		-- Change 'nvim-treesitter.configs' to just 'nvim-treesitter'
+		--
 		require("nvim-treesitter").setup({
 
 			-- This list is now the *only* thing you need in setup()
