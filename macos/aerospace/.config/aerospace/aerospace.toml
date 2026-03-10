@@ -79,6 +79,9 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-shift-s = 'exec-and-forget ~/.local/bin/screenshot'
     alt-cmd-s   = 'exec-and-forget ~/.local/bin/screenshot window'
 
+    # linkr fuzzy picker (matches i3: $mod+i exec rofi linkr)
+    alt-i = 'exec-and-forget ~/.local/bin/linkr-pick'
+
     alt-shift-c = 'reload-config'
 
     alt-r = 'mode resize'

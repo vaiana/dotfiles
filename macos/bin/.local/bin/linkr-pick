@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+selected=$(/Users/mike/.local/bin/linkr | /opt/homebrew/bin/choose)
+[ -n "$selected" ] && /Users/mike/.local/bin/linkr "$selected"
