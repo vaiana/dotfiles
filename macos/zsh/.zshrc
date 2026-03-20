@@ -123,14 +123,9 @@ alias vi="nvim"
 alias scp="noglob scp"
 alias sed="gsed" # brew install gnu-sed
 alias ca="cursor-agent"
+alias cr="claude --rc --permission-mode plan"                   # interactive claude session, monitorable via mobile app
+alias crd="claude --rc --dangerously-skip-permissions"  # same, no permission prompts
 
-###############
-# functions
-###############
-get_deep_ip(){
-    echo "$(arp -na | grep 70:85:c2:b0:ed:53 | grep -E -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*")"
-
-}
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
