@@ -132,6 +132,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     if.app-id = 'org.zotero.zotero'
     run = ['move-node-to-workspace 8']
 
+# Workspace 9: Linear
+
+[[on-window-detected]]
+    if.app-id = 'com.linear'
+    run = ['move-node-to-workspace 9']
+    
 [[on-window-detected]]
     if.app-id = 'com.electron.universal-launcher'
     run = ['layout floating']
