@@ -109,6 +109,12 @@ key = "0"
 mods = "Control"
 chars = "\u001b[110~"
 
+# Ctrl+Shift+K enters tmux copy mode (sends prefix + [)
+[[keyboard.bindings]]
+key = "K"
+mods = "Control|Shift"
+chars = "\u0001["
+
 [[keyboard.bindings]]
 key = "Return"
 mods = "Shift"
