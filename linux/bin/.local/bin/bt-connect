@@ -1,0 +1,135 @@
+#!/bin/bash
+
+# Interactive bluetooth pairing/connection helper using bluetoothctl.
+# Usage:
+#   bt-connect              Scan, pick a device, pair/trust/connect
+#   bt-connect <mac>        Pair/trust/connect to a known MAC address
+#   bt-connect --list       List paired devices and their status
+
+SCAN_DURATION=10
+
+list_paired() {
+    echo "Paired devices:"
+    echo ""
+    while IFS= read -r line; do
+        mac=$(echo "$line" | awk '{print $2}')
+        name=$(echo "$line" | cut -d' ' -f3-)
+        connected=$(bluetoothctl info "$mac" 2>/dev/null | grep "Connected:" | awk '{print $2}')
+        if [ "$connected" = "yes" ]; then
+            printf "  * %-20s %s (connected)\n" "$mac" "$name"
+        else
+            printf "    %-20s %s\n" "$mac" "$name"
+        fi
+    done < <(bluetoothctl devices Paired 2>/dev/null)
+}
+
+connect_device() {
+    local mac="$1"
+    local name
+    name=$(bluetoothctl info "$mac" 2>/dev/null | grep "Name:" | cut -d' ' -f2-)
+    name="${name:-$mac}"
+
+    # Check if already connected
+    local connected
+    connected=$(bluetoothctl info "$mac" 2>/dev/null | grep "Connected:" | awk '{print $2}')
+    if [ "$connected" = "yes" ]; then
+        echo "$name is already connected."
+        return 0
+    fi
+
+    # Check if already paired
+    local paired
+    paired=$(bluetoothctl info "$mac" 2>/dev/null | grep "Paired:" | awk '{print $2}')
+    if [ "$paired" != "yes" ]; then
+        echo "Pairing with $name..."
+        bluetoothctl pair "$mac" 2>&1 | tail -1
+    fi
+
+    # Trust so it auto-reconnects
+    local trusted
+    trusted=$(bluetoothctl info "$mac" 2>/dev/null | grep "Trusted:" | awk '{print $2}')
+    if [ "$trusted" != "yes" ]; then
+        bluetoothctl trust "$mac" > /dev/null 2>&1
+        echo "Trusted $name"
+    fi
+
+    echo "Connecting to $name..."
+    if bluetoothctl connect "$mac" 2>&1 | grep -q "Connection successful"; then
+        echo "Connected to $name"
+    else
+        echo "Failed to connect to $name"
+        return 1
+    fi
+}
+
+scan_and_pick() {
+    echo "Scanning for ${SCAN_DURATION}s..."
+    # Run scan in the background, collect results
+    bluetoothctl --timeout "$SCAN_DURATION" scan on > /dev/null 2>&1
+
+    # Get discovered devices
+    local devices
+    devices=$(bluetoothctl devices 2>/dev/null | grep -v "^\s*$")
+
+    if [ -z "$devices" ]; then
+        echo "No devices found."
+        return 1
+    fi
+
+    # Build menu
+    local i=1
+    local macs=()
+    echo ""
+    echo "Found devices:"
+    while IFS= read -r line; do
+        mac=$(echo "$line" | awk '{print $2}')
+        name=$(echo "$line" | cut -d' ' -f3-)
+        # Skip unnamed devices (just MAC addresses with dashes)
+        if echo "$name" | grep -qP '^([0-9A-F]{2}-){5}[0-9A-F]{2}$'; then
+            continue
+        fi
+        printf "  %2d) %-20s %s\n" "$i" "$mac" "$name"
+        macs+=("$mac")
+        i=$((i + 1))
+    done <<< "$devices"
+
+    if [ ${#macs[@]} -eq 0 ]; then
+        echo "No named devices found."
+        return 1
+    fi
+
+    echo ""
+    read -rp "Select device [1-$((i - 1))]: " choice
+
+    if ! [[ "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || [ "$choice" -ge "$i" ]; then
+        echo "Invalid selection."
+        return 1
+    fi
+
+    connect_device "${macs[$((choice - 1))]}"
+}
+
+# Check that bluetooth adapter is powered on
+if ! bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then
+    echo "Bluetooth adapter is not powered on."
+    echo "Run: bluetoothctl power on"
+    exit 1
+fi
+
+case "${1:-}" in
+    --list|-l)
+        list_paired
+        ;;
+    "")
+        scan_and_pick
+        ;;
+    *)
+        # Treat argument as a MAC address
+        if [[ "$1" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
+            connect_device "$1"
+        else
+            echo "Usage: bt-connect [--list | <MAC address>]"
+            exit 1
+        fi
+        ;;
+esac
