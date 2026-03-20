@@ -243,3 +243,6 @@ bindcode $mod+Mod4+39 exec --no-startup-id $screenshot_script window
 #Connect Pixel Buds
 bindsym $mod+b exec --no-startup-id bluetoothctl connect 98:3A:1F:EB:6E:95
 
+# Type Bitwarden master password
+bindsym $mod+p exec --no-startup-id $HOME/.local/bin/bw-type-password
+

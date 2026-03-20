@@ -80,6 +80,16 @@ Brave Stable is used for work and Brave Beta for personal. Aerospace identifies 
 by their distinct bundle IDs (`com.brave.Browser` vs `com.brave.Browser.beta`) and
 routes them to workspaces 1 and 2 automatically.
 
+## Bitwarden unlock (Linux)
+
+`Alt+p` types your Bitwarden master password into the focused field. The password
+itself is not stored in this repo — you need to create it on each machine:
+
+```bash
+echo -n 'your-master-password' > ~/.bw_master
+chmod 600 ~/.bw_master
+```
+
 ## tmux
 
 The prefix is `Ctrl+a` on both platforms. On macOS, Alacritty is configured to send
