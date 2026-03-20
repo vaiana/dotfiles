@@ -1,5 +1,4 @@
 {
-  "skipDangerousModePermissionPrompt": true,
   "permissions": {
     "allow": [
       "Read",
@@ -11,7 +10,6 @@
       "WebSearch",
       "TodoRead",
       "TodoWrite",
-
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(git status*)",
@@ -30,7 +28,6 @@
       "Bash(git show*)",
       "Bash(git tag*)",
       "Bash(git restore *)",
-
       "Bash(ls*)",
       "Bash(pwd)",
       "Bash(echo *)",
@@ -51,7 +48,6 @@
       "Bash(source *)",
       "Bash(curl *)",
       "Bash(open *)",
-
       "Bash(npm *)",
       "Bash(npx *)",
       "Bash(yarn *)",
@@ -66,5 +62,9 @@
       "Bash(go *)",
       "Bash(brew *)"
     ]
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "slack@claude-plugins-official": true
   }
 }
