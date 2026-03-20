@@ -1,43 +1,43 @@
-# Work links, opens in work browser 
-w/google;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.google.com/
-w/gemini;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://gemini.google.com/
-w/chatgpt;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.chatgpt.com/
-w/claude;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://claude.ai/
-w/cal;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://calendar.google.com/
-w/mail;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://mail.google.com/
-w/drive;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://drive.google.com/
-w/gratz;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.getgratz.com/
-w/discuss;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://trello.com/b/bGY7WPpz/mike-diogo
-w/harvest;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://agencyenterprise.harvestapp.com/time
-w/it;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://docs.google.com/forms/d/e/1FAIpQLScpXcCqVa3oyv7XuizCnKxbmnlU71wp7mAt6IVFFwVbx_Oc2Q/formrestricted
-w/vacation;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://airtable.com/appLqiS9oY5OiDZEO/shrm4pAoAjWYBoU9t
-w/teamsync;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://drive.google.com/drive/folders/1jMhatZTFZfub8qgavun2Lmd2jT12R67F
-w/people;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://people.ae.studio/
-w/crm;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://alignment-crm.vercel.app/2f3336a6-fa78-4317-90ac-bf63d72f05ca/dashboard
-w/rmboard;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://trello.com/b/rOI33ubM/rms
-w/tactiq;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://app.tactiq.io/
+# Work links, opens in default browser (work profile)
+w/google;brave-browser-stable --new-tab https://www.google.com/
+w/gemini;brave-browser-stable --new-tab https://gemini.google.com/
+w/chatgpt;brave-browser-stable --new-tab https://www.chatgpt.com/
+w/claude;brave-browser-stable --new-tab https://claude.ai/
+w/cal;brave-browser-stable --new-tab https://calendar.google.com/
+w/mail;brave-browser-stable --new-tab https://mail.google.com/
+w/drive;brave-browser-stable --new-tab https://drive.google.com/
+w/gratz;brave-browser-stable --new-tab https://www.getgratz.com/
+w/discuss;brave-browser-stable --new-tab https://trello.com/b/bGY7WPpz/mike-diogo
+w/harvest;brave-browser-stable --new-tab https://agencyenterprise.harvestapp.com/time
+w/it;brave-browser-stable --new-tab https://docs.google.com/forms/d/e/1FAIpQLScpXcCqVa3oyv7XuizCnKxbmnlU71wp7mAt6IVFFwVbx_Oc2Q/formrestricted
+w/vacation;brave-browser-stable --new-tab https://airtable.com/appLqiS9oY5OiDZEO/shrm4pAoAjWYBoU9t
+w/teamsync;brave-browser-stable --new-tab https://drive.google.com/drive/folders/1jMhatZTFZfub8qgavun2Lmd2jT12R67F
+w/people;brave-browser-stable --new-tab https://people.ae.studio/
+w/crm;brave-browser-stable --new-tab https://alignment-crm.vercel.app/2f3336a6-fa78-4317-90ac-bf63d72f05ca/dashboard
+w/rmboard;brave-browser-stable --new-tab https://trello.com/b/rOI33ubM/rms
+w/tactiq;brave-browser-stable --new-tab https://app.tactiq.io/
 
 # Apps repeated under /app for easier access
-w/mgai;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.militarygradeartificialintelligence.com/
-w/antisem;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.aiisantisemitic.com/
-w/sleepershield;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.sleepershield.com/
+w/mgai;brave-browser-stable --new-tab https://www.militarygradeartificialintelligence.com/
+w/antisem;brave-browser-stable --new-tab https://www.aiisantisemitic.com/
+w/sleepershield;brave-browser-stable --new-tab https://www.sleepershield.com/
 
-# Work Apps 
-app/mgai;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.militarygradeartificialintelligence.com/
-app/antisem;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.aiisantisemitic.com/
-app/sleepershield;brave-browser-stable --user-data-dir=$HOME/.config/brave-work --new-tab https://www.sleepershield.com/
-
-
+# Work Apps
+app/mgai;brave-browser-stable --new-tab https://www.militarygradeartificialintelligence.com/
+app/antisem;brave-browser-stable --new-tab https://www.aiisantisemitic.com/
+app/sleepershield;brave-browser-stable --new-tab https://www.sleepershield.com/
 
 
-# Personal links, opens in personal browser
-go/google;brave-browser-stable --new-tab https://www.google.com/
-go/gemini;brave-browser-stable --new-tab https://gemini.google.com/
-go/chatgpt;brave-browser-stable --new-tab https://www.chatgpt.com/
-go/cal;brave-browser-stable --new-tab https://calendar.google.com/
-go/mail;brave-browser-stable --new-tab https://mail.google.com/
-go/claude;brave-browser-stable --new-tab https://claude.ai/
-go/music;brave-browser-stable --new-tab https://music.youtube.com/
-go/gusto;brave-browser-stable --new-tab https://app.gusto.com/
-go/github;brave-browser-stable --new-tab https://github.com/
-go/innoreader;brave-browser-stable --new-tab https://www.inoreader.com/
+
+
+# Personal links, opens in home browser profile
+go/google;brave-home --new-tab https://www.google.com/
+go/gemini;brave-home --new-tab https://gemini.google.com/
+go/chatgpt;brave-home --new-tab https://www.chatgpt.com/
+go/cal;brave-home --new-tab https://calendar.google.com/
+go/mail;brave-home --new-tab https://mail.google.com/
+go/claude;brave-home --new-tab https://claude.ai/
+go/music;brave-home --new-tab https://music.youtube.com/
+go/gusto;brave-home --new-tab https://app.gusto.com/
+go/github;brave-home --new-tab https://github.com/
+go/innoreader;brave-home --new-tab https://www.inoreader.com/

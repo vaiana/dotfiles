@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Brave Web Browser (Home)
+GenericName=Web Browser
+Exec=brave-home %U
+StartupWMClass=brave-home
+Terminal=false
+Icon=brave-browser
+Type=Application
+Categories=Network;WebBrowser;
