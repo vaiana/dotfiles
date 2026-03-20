@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# find-deep: Locate the 'deep' machine on the local network and optionally update ~/.ssh/config
+
+set -euo pipefail
+
+SSH_CONFIG="$HOME/.ssh/config"
+HOST_ALIAS="deep"
+DEEP_MAC="70:85:c2:b0:ed:53"
+
+# Extract current IP from ssh config
+CURRENT_IP=$(awk "/^Host ${HOST_ALIAS}$/{found=1} found && /HostName/{print \$2; exit}" "$SSH_CONFIG")
+echo "Current IP for '${HOST_ALIAS}' in ~/.ssh/config: ${CURRENT_IP}"
+echo ""
+
+# --- Strategy 1: ARP table lookup by MAC address (fast, works if machine was recently seen) ---
+echo "Checking ARP table for MAC ${DEEP_MAC}..."
+ARP_IP=$(arp -na 2>/dev/null | grep -i "${DEEP_MAC}" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+
+if [[ -n "$ARP_IP" ]]; then
+  echo "Found in ARP table: ${ARP_IP}"
+  FOUND_IP="$ARP_IP"
+else
+  echo "Not in ARP table. Running network scan (this may take ~30s)..."
+  echo ""
+
+  # Determine local subnet
+  LOCAL_IP=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || echo "")
+  if [[ -z "$LOCAL_IP" ]]; then
+    echo "ERROR: Could not determine local IP address." >&2
+    exit 1
+  fi
+  SUBNET=$(echo "$LOCAL_IP" | cut -d. -f1-3).0/24
+
+  # --- Strategy 2: nmap scan matching by MAC address ---
+  echo "Scanning ${SUBNET} for MAC ${DEEP_MAC}..."
+  NMAP_IP=$(nmap -sn -T4 "$SUBNET" 2>/dev/null \
+    | awk '/Nmap scan report/{ip=$NF; gsub(/[()]/,"",ip)} /'"${DEEP_MAC}"'/{print ip}' \
+    | head -1)
+
+  if [[ -n "$NMAP_IP" ]]; then
+    echo "Found via nmap scan: ${NMAP_IP}"
+    FOUND_IP="$NMAP_IP"
+  else
+    echo ""
+    echo "Could not find a device with MAC ${DEEP_MAC} on ${SUBNET}."
+    echo "The '${HOST_ALIAS}' machine may be powered off or disconnected from the network."
+    exit 1
+  fi
+fi
+
+echo ""
+
+if [[ "$FOUND_IP" == "$CURRENT_IP" ]]; then
+  echo "IP hasn't changed (still ${FOUND_IP}). SSH may have another issue."
+  echo ""
+  echo "Try: ssh -v ${HOST_ALIAS}"
+  echo ""
+  echo "Common causes:"
+  echo "  - Machine is on but SSH daemon isn't running"
+  echo "  - Firewall blocking port 22"
+  echo "  - Host key changed (try: ssh-keygen -R ${CURRENT_IP})"
+  exit 0
+fi
+
+echo "Found '${HOST_ALIAS}' at new IP: ${FOUND_IP}  (was: ${CURRENT_IP})"
+echo ""
+read -rp "Update ~/.ssh/config to use ${FOUND_IP}? [y/N] " CONFIRM
+if [[ "${CONFIRM,,}" != "y" ]]; then
+  echo "Aborted. No changes made."
+  exit 0
+fi
+
+TMPFILE=$(mktemp)
+awk -v alias="$HOST_ALIAS" -v newip="$FOUND_IP" '
+  /^Host / { in_block = ($2 == alias) }
+  in_block && /^[[:space:]]*HostName / { sub(/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/, newip) }
+  { print }
+' "$SSH_CONFIG" > "$TMPFILE"
+
+echo "Diff:"
+diff "$SSH_CONFIG" "$TMPFILE" || true
+echo ""
+read -rp "Apply this change? [y/N] " CONFIRM2
+if [[ "${CONFIRM2,,}" != "y" ]]; then
+  rm "$TMPFILE"
+  echo "Aborted. No changes made."
+  exit 0
+fi
+
+cp "$TMPFILE" "$SSH_CONFIG"
+rm "$TMPFILE"
+echo ""
+echo "Updated ~/.ssh/config — '${HOST_ALIAS}' is now at ${FOUND_IP}."
+echo "Test with: ssh ${HOST_ALIAS}"
