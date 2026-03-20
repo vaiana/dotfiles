@@ -203,8 +203,8 @@ bar {
 #bindsym $mod+t workspace t
 #bindsym $mod+Shift+t move container to workspace "t"
 
-assign [class="^Brave-browser"] "2"
 assign [class="^brave-home"] "1"
+assign [class="^brave-work"] "2"
 assign [class="Alacritty"] "3"
 assign [class="Slack"] "4"
 assign [class="discord"] "5"

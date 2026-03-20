@@ -1,6 +1,5 @@
 #!/bin/bash
-# Open URLs in the Brave home (personal) profile.
 exec /usr/bin/brave-browser-stable \
-  --user-data-dir="$HOME/.config/brave-home" \
+  --user-data-dir="$HOME/.config/BraveSoftware/Brave-Browser" \
   --class=brave-home \
   "$@"
