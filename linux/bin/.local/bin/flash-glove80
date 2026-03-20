@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Flash a Glove80 keyboard with a .uf2 firmware file.
+# Usage: flash-glove80 [firmware.uf2]
+# Defaults to ~/Downloads/glove80.uf2
+
+FIRMWARE="${1:-$HOME/Downloads/glove80.uf2}"
+TIMEOUT=60
+
+if [ ! -f "$FIRMWARE" ]; then
+    echo "Firmware not found: $FIRMWARE"
+    exit 1
+fi
+
+print_bootloader_instructions() {
+    local half="$1"
+    local keys="$2"
+    echo ""
+    echo "=== Entering bootloader mode ($half half) ==="
+    echo ""
+    echo "  Method 1 (recommended - works even with broken firmware):"
+    echo "    1. Switch off the power switch"
+    echo "    2. Connect USB cable from host to $half half"
+    echo "    3. Hold keys: $keys"
+    echo "    4. While holding keys, switch power on"
+    echo ""
+    echo "  Method 2 (requires working ZMK on both halves):"
+    if [ "$half" = "Left" ]; then
+        echo "    Press Magic + Esc"
+    else
+        echo "    Press Magic + ' (apostrophe)"
+    fi
+    echo ""
+    echo "  Success: slow pulsing red LED next to power switch"
+    echo ""
+}
+
+# Find the block device for a given boot volume label and return its mount point.
+# If not already mounted, mount it with udisksctl.
+find_and_mount() {
+    local label="$1"
+    local dev
+
+    dev=$(blkid -l -o device -t "LABEL=$label" 2>/dev/null)
+    if [ -z "$dev" ]; then
+        return 1
+    fi
+
+    # Check if already mounted
+    local existing_mount
+    existing_mount=$(lsblk -no MOUNTPOINT "$dev" 2>/dev/null | head -1)
+    if [ -n "$existing_mount" ]; then
+        echo "$existing_mount"
+        return 0
+    fi
+
+    # Mount with udisksctl (doesn't require root)
+    local output
+    output=$(udisksctl mount -b "$dev" 2>&1)
+    if [ $? -eq 0 ]; then
+        # udisksctl prints: "Mounted /dev/sdX at /run/media/..."
+        echo "$output" | grep -oP 'at \K\S+\.?$' | sed 's/\.$//'
+        return 0
+    fi
+
+    return 1
+}
+
+flash_half() {
+    local label="$1"
+    local volume="$2"
+    local keys="$3"
+    local elapsed=0
+
+    print_bootloader_instructions "$label" "$keys"
+    echo "Waiting for $volume device..."
+    while true; do
+        local mount_point
+        mount_point=$(find_and_mount "$volume")
+        if [ -n "$mount_point" ]; then
+            echo "Found at $mount_point"
+            cp "$FIRMWARE" "$mount_point/"
+            echo "$label half flashed!"
+            return 0
+        fi
+        sleep 1
+        elapsed=$((elapsed + 1))
+        if [ "$elapsed" -ge "$TIMEOUT" ]; then
+            echo "Timed out waiting for $volume"
+            return 1
+        fi
+    done
+}
+
+flash_half "Left" "GLV80LHBOOT" "Magic + E (C6R6 + C3R3)" || exit 1
+flash_half "Right" "GLV80RHBOOT" "I + PgDn (C6R6 + C3R3)" || exit 1
+
+echo "Done! Both halves flashed."
