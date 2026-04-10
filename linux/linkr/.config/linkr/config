@@ -16,6 +16,8 @@ w/people;brave-work --new-tab https://people.ae.studio/
 w/crm;brave-work --new-tab https://alignment-crm.vercel.app/2f3336a6-fa78-4317-90ac-bf63d72f05ca/dashboard
 w/rmboard;brave-work --new-tab https://trello.com/b/rOI33ubM/rms
 w/tactiq;brave-work --new-tab https://app.tactiq.io/
+w/anthropic-console;brave-work --new-tab https://platform.claude.com/
+
 
 # Apps repeated under /app for easier access
 w/mgai;brave-work --new-tab https://www.militarygradeartificialintelligence.com/
