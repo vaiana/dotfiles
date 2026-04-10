@@ -8,6 +8,9 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# Vi mode for command line editing
+set -o vi
+
 #################
 # Aliases
 #################
