@@ -82,6 +82,9 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     # linkr fuzzy picker (matches i3: $mod+i exec rofi linkr)
     alt-i = 'exec-and-forget ~/.local/bin/linkr-pick'
 
+    # Type Bitwarden master password (matches i3: $mod+p)
+    alt-p = 'exec-and-forget ~/.local/bin/bw-type-password'
+
     alt-shift-c = 'reload-config'
 
     alt-r = 'mode resize'
