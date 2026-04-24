@@ -82,8 +82,10 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     # linkr fuzzy picker (matches i3: $mod+i exec rofi linkr)
     alt-i = 'exec-and-forget ~/.local/bin/linkr-pick'
 
-    # Type Bitwarden master password (matches i3: $mod+p)
-    alt-p = 'exec-and-forget ~/.local/bin/bw-type-password'
+    # Type Bitwarden master password. Uses alt-shift-p (not alt-p as on i3)
+    # because cliclick types while the modifier may still be held, and alt-p
+    # produces "π" — shift-p avoids collision with a system character.
+    alt-shift-p = 'exec-and-forget ~/.local/bin/bw-type-password'
 
     alt-shift-c = 'reload-config'
 

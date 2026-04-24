@@ -82,18 +82,21 @@ routes them to workspaces 1 and 2 automatically.
 
 ## Bitwarden unlock
 
-`Alt+p` types your Bitwarden master password into the focused field on both
-platforms (i3 on Linux, AeroSpace on macOS). The password itself is not stored
-in this repo — create it on each machine:
+Typing your Bitwarden master password into the focused field is bound to
+`Alt+p` on Linux (i3) and `Alt+Shift+P` on macOS (AeroSpace) — macOS uses
+the shifted combo because characters typed while Option is still held get
+mangled into their Option-variants. The password itself is not stored in
+this repo — create it on each machine:
 
 ```bash
 echo -n 'your-master-password' > ~/.bw_master
 chmod 600 ~/.bw_master
 ```
 
-On macOS, the script uses `osascript` System Events keystroke, which requires
-Accessibility permission for AeroSpace (System Settings → Privacy & Security →
-Accessibility).
+On macOS, the script uses `cliclick` (install with `brew install cliclick`),
+which requires Accessibility **and** Input Monitoring permission for AeroSpace
+(System Settings → Privacy & Security). The first invocation may also prompt
+for a separate Accessibility grant for `cliclick` itself.
 
 ## tmux
 
