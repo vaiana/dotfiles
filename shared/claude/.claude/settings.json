@@ -67,5 +67,8 @@
     "slack@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-daltonized",
+  "editorMode": "vim",
+  "agentPushNotifEnabled": true
 }
