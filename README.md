@@ -75,10 +75,59 @@ makes this launchable from rofi.
 
 ### macOS
 
-macOS doesn't support `--user-data-dir` window detection the same way, so instead
-Brave Stable is used for work and Brave Beta for personal. Aerospace identifies them
-by their distinct bundle IDs (`com.brave.Browser` vs `com.brave.Browser.beta`) and
-routes them to workspaces 1 and 2 automatically.
+Two browsers, fully isolated profiles, AeroSpace routes them to different
+workspaces:
+
+- **Brave Browser** (`/Applications/Brave Browser.app`, bundle id
+  `com.brave.Browser`) — work. System default browser, so clicked links from
+  Slack / Mail / etc. land here. AeroSpace → workspace 2.
+- **Brave Home** (`/Applications/Brave Home.app`, bundle id
+  `com.brave.Browser.home`) — personal. Distinct `--user-data-dir` so it's
+  blind to the work profile and vice versa. AeroSpace → workspace 1.
+
+#### Why a wrapper bundle
+
+The Linux `--class=brave-work` trick doesn't work on macOS — AeroSpace routes
+on bundle id, and two `Brave Browser.app` instances launched with different
+`--user-data-dir`s both report `com.brave.Browser`. To get a genuinely
+separate bundle id, `Brave Home.app` is a full rebranded copy of
+`Brave Browser.app`:
+
+- All `CFBundleIdentifier` values rewritten from `com.brave.Browser*` to
+  `com.brave.Browser.home*` (top-level + framework + helper apps).
+- Main executable replaced with a shell script that exec's the renamed
+  Brave launcher with `--user-data-dir=…/Brave-Browser-Home` baked in, so
+  every launch path (Spotlight, Dock, linkr, `open -a "Brave Home"`) uses
+  the home profile.
+- `BraveUpdater.app` removed so it can't auto-update the wrapper and revert
+  the Info.plist edits.
+- Re-signed ad-hoc and registered with Launch Services.
+
+The build is automated by `~/.local/bin/rebuild-brave-home` (source in
+`macos/bin/.local/bin/rebuild-brave-home`). It only writes to
+`/Applications/Brave Home.app`; it never touches Brave Stable or any user
+data dir.
+
+#### Keeping Brave Home up to date
+
+Brave Stable auto-updates itself but can't reach inside `Brave Home.app`, so
+Brave Home is version-frozen at the moment of last rebuild. To pull in the
+latest Chromium / Brave fixes:
+
+```bash
+# Quit Brave Home first (the script rm -rf's the bundle)
+rebuild-brave-home
+```
+
+Then relaunch Brave Home. macOS will prompt once with "Brave Home wants to
+use your confidential information stored in 'Brave Safe Storage'" — click
+Always Allow. (It re-prompts on every rebuild because the ad-hoc code
+signature changes.)
+
+To check whether a rebuild is overdue, compare versions in
+`brave://version` between Brave Browser and Brave Home. There's no urgency —
+Brave Home keeps working indefinitely without rebuilding; you're just behind
+on security/feature updates until you do.
 
 ## Bitwarden unlock
 
