@@ -1,6 +1,9 @@
 [window]
 opacity = 0.9
 
+[font]
+size = 16
+
 # Send Ctrl+a when Cmd+a is pressed so tmux prefix works naturally on Mac.
 [[keyboard.bindings]]
 key = "A"
