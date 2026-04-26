@@ -99,15 +99,20 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     enter = 'mode main'
     esc = 'mode main'
 
-# Workspace 1: Brave Beta (personal)
-# Using Beta for personal so Stable can be reserved for work (see workspace 2).
+# Workspace 1: Brave Home (personal)
+# Brave Home is /Applications/Brave Home.app — a rebranded copy of Brave
+# Browser.app with bundle id com.brave.Browser.home and a wrapper script that
+# bakes in --user-data-dir for the Brave-Browser-Home profile. Built and
+# refreshed (after Brave Stable updates) by ~/.local/bin/rebuild-brave-home.
 [[on-window-detected]]
-    if.app-id = 'com.brave.Browser.beta'
+    if.app-id = 'com.brave.Browser.home'
     run = ['move-node-to-workspace 1']
 
 # Workspace 2: Brave Stable (work)
-# Stable is used for work so both profiles have distinct bundle IDs and can be
-# auto-routed. Mirrors the Linux setup where --class=brave-work separates instances.
+# Stable is the system default browser, so clicked links open here. Distinct
+# bundle id from Brave Home means AeroSpace can auto-route them to different
+# workspaces. Mirrors the Linux setup where --class=brave-work separates
+# instances.
 [[on-window-detected]]
     if.app-id = 'com.brave.Browser'
     run = ['move-node-to-workspace 2']
