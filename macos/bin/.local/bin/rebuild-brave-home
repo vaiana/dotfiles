@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# Build /Applications/Brave Home.app as a bundle-id-rebranded copy of
+# /Applications/Brave Browser.app.
+#
+# This gives the home browser a distinct bundle identifier
+# (com.brave.Browser.home) so AeroSpace can route it to a different workspace
+# than the work browser, while keeping a separate --user-data-dir so the two
+# browsers can't see each other's profile.
+#
+# Re-run after every Brave Stable update — Brave's auto-updater touches
+# /Applications/Brave Browser.app but not this wrapper, so the launcher binary
+# inside the wrapper goes stale otherwise. BraveUpdater is removed from the
+# wrapper so it can't auto-update itself and clobber our Info.plist edits.
+#
+# Never touches /Applications/Brave Browser.app or any user data dir.
+set -euo pipefail
+
+SOURCE="/Applications/Brave Browser.app"
+TARGET="/Applications/Brave Home.app"
+DATA_DIR="$HOME/Library/Application Support/BraveSoftware/Brave-Browser-Home"
+OLD_PREFIX="com.brave.Browser"
+NEW_PREFIX="com.brave.Browser.home"
+DISPLAY_NAME="Brave Home"
+EXEC_NAME="Brave Home"
+
+if [[ ! -d "$SOURCE" ]]; then
+  echo "error: $SOURCE not found" >&2
+  exit 1
+fi
+
+# Refuse to operate on anything other than the wrapper path. Defensive guard
+# against typos that could nuke the real Brave install.
+if [[ "$TARGET" != "/Applications/Brave Home.app" ]]; then
+  echo "error: refusing to operate on non-wrapper target: $TARGET" >&2
+  exit 1
+fi
+
+if [[ -e "$TARGET" ]]; then
+  echo "removing existing $TARGET..."
+  rm -rf "$TARGET"
+fi
+
+echo "copying $SOURCE -> $TARGET ..."
+cp -R "$SOURCE" "$TARGET"
+
+# Strip BraveUpdater so it can't auto-update the wrapper and revert our edits.
+# Brave Stable is unaffected — it has its own copy of BraveUpdater.
+find "$TARGET" -name "BraveUpdater.app" -type d -prune -exec rm -rf {} +
+
+# Rename the launcher binary; we'll exec it from a wrapper shell script that
+# bakes in --user-data-dir.
+mv "$TARGET/Contents/MacOS/Brave Browser" "$TARGET/Contents/MacOS/_brave_real"
+
+cat > "$TARGET/Contents/MacOS/$EXEC_NAME" <<EOF
+#!/bin/bash
+DIR="\$(cd "\$(dirname "\$0")" && pwd)"
+exec "\$DIR/_brave_real" \\
+  --user-data-dir="$DATA_DIR" \\
+  "\$@"
+EOF
+chmod +x "$TARGET/Contents/MacOS/$EXEC_NAME"
+
+echo "rewriting bundle identifiers..."
+while IFS= read -r plist; do
+  current_id=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$plist" 2>/dev/null || true)
+  [[ -z "$current_id" ]] && continue
+  case "$current_id" in
+    "$OLD_PREFIX"|"$OLD_PREFIX".*)
+      new_id="${NEW_PREFIX}${current_id#"$OLD_PREFIX"}"
+      /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $new_id" "$plist"
+      ;;
+  esac
+done < <(find "$TARGET" -name Info.plist -not -path "*/_CodeSignature/*")
+
+PLIST="$TARGET/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c "Set :CFBundleName $DISPLAY_NAME" "$PLIST"
+/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $DISPLAY_NAME" "$PLIST" 2>/dev/null \
+  || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string $DISPLAY_NAME" "$PLIST"
+/usr/libexec/PlistBuddy -c "Set :CFBundleExecutable $EXEC_NAME" "$PLIST"
+
+# Strip extended attributes left by `cp -R` (resource forks / quarantine /
+# com.apple.FinderInfo) — codesign refuses to operate on bundles that have them.
+xattr -cr "$TARGET"
+
+echo "code-signing (ad-hoc)..."
+codesign --force --deep --sign - "$TARGET"
+
+LSREG="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+if [[ -x "$LSREG" ]]; then
+  "$LSREG" -f "$TARGET" >/dev/null 2>&1 || true
+fi
+
+echo
+echo "built $TARGET"
+echo "  bundle id: $NEW_PREFIX"
+echo "  data dir:  $DATA_DIR"
+echo "  launch:    open '$TARGET'"
