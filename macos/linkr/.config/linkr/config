@@ -30,14 +30,15 @@ app/antisem;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new
 app/sleepershield;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.sleepershield.com/
 
 
-# Personal links, opens in Brave Beta (personal browser)
-go/google;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.google.com/
-go/gemini;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://gemini.google.com/
-go/chatgpt;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.chatgpt.com/
-go/cal;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://calendar.google.com/
-go/mail;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://mail.google.com/
-go/claude;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://claude.ai/
-go/music;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://music.youtube.com/
-go/gusto;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://app.gusto.com/
-go/github;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://github.com/
-go/innoreader;"/Applications/Brave Browser Beta.app/Contents/MacOS/Brave Browser Beta" --new-tab https://www.inoreader.com/
+# Personal links, opens in Brave Home (rebranded Brave Stable copy with its own
+# --user-data-dir baked into the wrapper script — see ~/.local/bin/rebuild-brave-home).
+go/google;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://www.google.com/
+go/gemini;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://gemini.google.com/
+go/chatgpt;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://www.chatgpt.com/
+go/cal;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://calendar.google.com/
+go/mail;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://mail.google.com/
+go/claude;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://claude.ai/
+go/music;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://music.youtube.com/
+go/gusto;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://app.gusto.com/
+go/github;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://github.com/
+go/innoreader;"/Applications/Brave Home.app/Contents/MacOS/Brave Home" --new-tab https://www.inoreader.com/
