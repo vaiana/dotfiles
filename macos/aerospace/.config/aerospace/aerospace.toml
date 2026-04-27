@@ -127,14 +127,22 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     if.app-id = 'com.tinyspeck.slackmacgap'
     run = ['move-node-to-workspace 4']
 
-# Workspace 5: Discord
+# Workspace 5: Discord + Zoom
 [[on-window-detected]]
     if.app-id = 'com.hnc.Discord'
     run = ['move-node-to-workspace 5']
 
-# Workspace 7: Cursor
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    run = ['move-node-to-workspace 5']
+
+# Workspace 7: Cursor + REAPER
 [[on-window-detected]]
     if.app-id = 'com.todesktop.230313mzl4w4u92'
+    run = ['move-node-to-workspace 7']
+
+[[on-window-detected]]
+    if.app-id = 'com.cockos.reaper'
     run = ['move-node-to-workspace 7']
 
 # Workspace 8: Zotero
