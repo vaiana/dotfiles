@@ -131,21 +131,24 @@ on security/feature updates until you do.
 
 ## Bitwarden unlock
 
-Typing your Bitwarden master password into the focused field is bound to
-`Alt+p` on Linux (i3) and `Alt+Shift+P` on macOS (AeroSpace) — macOS uses
-the shifted combo because characters typed while Option is still held get
-mangled into their Option-variants. The password itself is not stored in
-this repo — create it on each machine:
+Bitwarden master password is bound to `Alt+p` on Linux (i3, types directly
+into the focused field) and `Alt+Cmd+P` on macOS (AeroSpace, copies to the
+clipboard then sends Cmd+V to the focused app, then restores the prior
+clipboard). macOS uses a Cmd combo because alt/alt-shift combos produce
+typed special characters when AeroSpace fails to capture the binding
+(observed when a browser is focused), and clipboard+paste because
+synthesized character keystrokes don't reliably reach browser password
+fields. The password itself is not stored in this repo — create it on each
+machine:
 
 ```bash
 echo -n 'your-master-password' > ~/.bw_master
 chmod 600 ~/.bw_master
 ```
 
-On macOS, the script uses `cliclick` (install with `brew install cliclick`),
-which requires Accessibility **and** Input Monitoring permission for AeroSpace
-(System Settings → Privacy & Security). The first invocation may also prompt
-for a separate Accessibility grant for `cliclick` itself.
+AeroSpace needs Accessibility permission so System Events can deliver the
+synthetic Cmd+V to the focused app (System Settings → Privacy & Security →
+Accessibility).
 
 ## tmux
 

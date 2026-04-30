@@ -82,10 +82,13 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     # linkr fuzzy picker (matches i3: $mod+i exec rofi linkr)
     alt-i = 'exec-and-forget ~/.local/bin/linkr-pick'
 
-    # Type Bitwarden master password. Uses alt-shift-p (not alt-p as on i3)
-    # because cliclick types while the modifier may still be held, and alt-p
-    # produces "π" — shift-p avoids collision with a system character.
-    alt-shift-p = 'exec-and-forget ~/.local/bin/bw-type-password'
+    # Copy Bitwarden master password to clipboard (paste manually with Cmd+V).
+    # Uses alt-cmd-p rather than alt-p (i3) or alt-shift-p: alt-* and alt-shift-*
+    # type special chars on macOS (π, Π), and when AeroSpace fails to capture
+    # the binding (observed with browser focus) the keystroke leaks through and
+    # types garbage into the focused field. Cmd-modified combos don't produce a
+    # character on leak.
+    alt-cmd-p = 'exec-and-forget ~/.local/bin/bw-type-password'
 
     alt-shift-c = 'reload-config'
 
