@@ -121,3 +121,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 . "$HOME/.local/bin/env"
+
+# Claude Code: default to work account; ~/rc/.envrc overrides to personal
+export CLAUDE_CONFIG_DIR="$HOME/.claude-work"
+eval "$(direnv hook zsh)"
