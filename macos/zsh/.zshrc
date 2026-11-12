@@ -114,6 +114,9 @@ alias sed="gsed" # brew install gnu-sed
 alias ca="cursor-agent"
 alias cr="claude --rc --permission-mode plan"                   # interactive claude session, monitorable via mobile app
 alias crd="claude --rc --dangerously-skip-permissions"  # same, no permission prompts
+alias cld="claude --dangerously-skip-permissions"       # same as crd but no remote control
+alias cdx="codex --dangerously-bypass-approvals-and-sandbox" # no permission prompts or sandbox
+alias agd="agy --dangerously-skip-permissions"          # antigravity CLI, no permission prompts
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -125,3 +128,6 @@ export NVM_DIR="$HOME/.nvm"
 # Claude Code: default to work account; ~/rc/.envrc overrides to personal
 export CLAUDE_CONFIG_DIR="$HOME/.claude-work"
 eval "$(direnv hook zsh)"
+
+# Prefer user-installed AWS CLI v2 over the legacy /usr/local AWS CLI v1.
+export PATH="$HOME/.local/bin:$PATH"
