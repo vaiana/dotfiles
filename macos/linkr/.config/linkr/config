@@ -11,7 +11,7 @@ w/gratz;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab
 w/discuss;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://trello.com/b/bGY7WPpz/mike-diogo
 w/harvest;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://agencyenterprise.harvestapp.com/time
 w/it;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://docs.google.com/forms/d/e/1FAIpQLScpXcCqVa3oyv7XuizCnKxbmnlU71wp7mAt6IVFFwVbx_Oc2Q/formrestricted
-w/vacation;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://airtable.com/appLqiS9oY5OiDZEO/shrm4pAoAjWYBoU9t
+w/vacation;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://vacations.ae.studio/
 w/teamsync;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://drive.google.com/drive/folders/1jMhatZTFZfub8qgavun2Lmd2jT12R67F
 w/proj;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://drive.google.com/drive/folders/1eYx4EhomP0KWsxSihY6w1PeHG5Hcqiv_
 w/aicraft;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://drive.google.com/drive/folders/1_lL4Yj-Tr2OVIhWOMUJxAyz4zIJKP41U
@@ -20,6 +20,7 @@ w/crm;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab h
 w/rmboard;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://trello.com/b/rOI33ubM/rms
 w/tactiq;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://app.tactiq.io/
 w/anthropic-console;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://platform.claude.com/
+w/preveil;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab http://localhost:4003
 
 # Apps repeated under /app for easier access
 w/mgai;"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --new-tab https://www.militarygradeartificialintelligence.com/
