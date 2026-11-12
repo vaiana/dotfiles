@@ -20,6 +20,8 @@ alias vi="nvim"
 alias scp="noglob scp"
 alias cr="claude --rc --permission-mode plan"                   # interactive claude session, monitorable via mobile app
 alias crd="claude --rc --dangerously-skip-permissions"  # same, no permission prompts
+alias cld="claude --dangerously-skip-permissions"       # same as crd but no remote control
+alias cdx="codex --dangerously-bypass-approvals-and-sandbox" # no permission prompts or sandbox
 alias btc="bt-connect"
 alias btcl="bt-connect --list"
 
