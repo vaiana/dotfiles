@@ -9,6 +9,11 @@ start-at-login = true
 enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
 
+# Always split side by side (left to right) instead of letting AeroSpace pick
+# based on monitor aspect ratio.
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'horizontal'
+
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
@@ -130,14 +135,23 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     if.app-id = 'com.tinyspeck.slackmacgap'
     run = ['move-node-to-workspace 4']
 
-# Workspace 5: Discord + Zoom
+# Workspace 5: Discord + Anki + Preview
 [[on-window-detected]]
     if.app-id = 'com.hnc.Discord'
     run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
-    if.app-id = 'us.zoom.xos'
+    if.app-id = 'net.ankiweb.anki'
     run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Preview'
+    run = ['move-node-to-workspace 5']
+
+# Workspace 6: Zoom
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    run = ['move-node-to-workspace 6']
 
 # Workspace 7: Cursor + REAPER
 [[on-window-detected]]
