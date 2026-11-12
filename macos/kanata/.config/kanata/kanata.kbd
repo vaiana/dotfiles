@@ -1,0 +1,80 @@
+;; Home-row mods for the built-in MacBook keyboard.
+;;
+;;   left hand:   a = ctrl    s = alt    d = cmd    f = shift
+;;   right hand:  ; = ctrl    l = alt    k = cmd    j = shift
+;;
+;; Hold only resolves to a modifier when the *next* key pressed is on the
+;; opposite hand (`tap-hold-opposite-hand` + `defhands`). Same-hand rolls
+;; like the "sd" in "wisdom" always type letters. This is the same trick as
+;; ZMK's `hold-trigger-key-positions` on the Glove80, so the timing habits
+;; carry over.
+;;
+;; Only the built-in keyboard is intercepted (see `macos-dev-names-include`),
+;; so the Glove80 passes straight through when it's plugged in — its firmware
+;; already does its own hold-taps and double-processing would misfire.
+
+(defcfg
+  ;; Let kanata see keys that aren't in `defsrc`. Required for both the
+  ;; hand-assignment logic and `tap-hold-require-prior-idle` to notice
+  ;; typing activity on keys we don't remap.
+  process-unmapped-keys yes
+
+  ;; Allow two home-row mods to be held at once (cmd+shift, ctrl+alt, ...).
+  ;; Without this the second mod's timer doesn't start until the first expires.
+  concurrent-tap-hold yes
+
+  ;; ZMK's `require-prior-idle-ms`. If another key was pressed within this
+  ;; many ms, a home-row key resolves as a plain letter immediately. This is
+  ;; what keeps mods out of the way during fast typing.
+  tap-hold-require-prior-idle 150
+
+  ;; Built-in keyboard only. Everything else — the Glove80, any other
+  ;; external keyboard — is left alone.
+  macos-dev-names-include ("Apple Internal Keyboard / Trackpad")
+)
+
+;; Physical hand assignment. Keys left out of this block (spc, ret, tab,
+;; bspc, esc, arrows, function keys) have no hand, and the `(unknown-hand
+;; hold)` option below makes them resolve as a hold — so cmd+space,
+;; cmd+backspace and cmd+arrow fire instantly.
+(defhands
+  (left  grv 1 2 3 4 5  q w e r t  a s d f g  z x c v b)
+  (right 6 7 8 9 0 - =  y u i o p [ ] \  h j k l ; '  n m , . /)
+)
+
+(defvar
+  ;; Hold timeout in ms. Raise it if mods fire when you meant to type a
+  ;; letter; lower it if mods feel sluggish. The Glove80's tapping-term-ms
+  ;; is the equivalent knob.
+  hold-time 200
+)
+
+(defalias
+  ;; `(timeout hold)`      — holding the key alone past the timeout gives the
+  ;;                         modifier, so shift-click and cmd-click work.
+  ;; `(unknown-hand hold)` — keys with no hand (space, arrows, ...) resolve
+  ;;                         to the modifier rather than waiting.
+  a (tap-hold-opposite-hand $hold-time a lctl (timeout hold) (unknown-hand hold))
+  s (tap-hold-opposite-hand $hold-time s lalt (timeout hold) (unknown-hand hold))
+  d (tap-hold-opposite-hand $hold-time d lmet (timeout hold) (unknown-hand hold))
+  f (tap-hold-opposite-hand $hold-time f lsft (timeout hold) (unknown-hand hold))
+
+  j (tap-hold-opposite-hand $hold-time j rsft (timeout hold) (unknown-hand hold))
+  k (tap-hold-opposite-hand $hold-time k rmet (timeout hold) (unknown-hand hold))
+  l (tap-hold-opposite-hand $hold-time l ralt (timeout hold) (unknown-hand hold))
+  ; (tap-hold-opposite-hand $hold-time ; rctl (timeout hold) (unknown-hand hold))
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =
+  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  a    s    d    f    g    h    j    k    l    ;    '
+  z    x    c    v    b    n    m    ,    .    /
+)
+
+(deflayer base
+  grv  1    2    3    4    5    6    7    8    9    0    -    =
+  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @a   @s   @d   @f   g    h    @j   @k   @l   @;   '
+  z    x    c    v    b    n    m    ,    .    /
+)
